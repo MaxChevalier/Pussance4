@@ -1,7 +1,7 @@
 class Display {
 
     public static void main(String[] args) throws Exception {
-        int[][] grid = new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
+        int[][] grid = new int[][] { { 0, 1, 1 }, { 0, 0, 0 }, { 0, 1, 1 }, { 0, 1, 1 } };
         Display.DisplayGrid(grid);
     }
 
@@ -28,36 +28,17 @@ class Display {
         for (int j = 0; j < row; j++) {
                 System.out.print("│");
                 for (int k = 0; k < col; k++) {
-                    System.out.print(grid[k][j]+"│");
+                    if(grid[k][j] == 1){
+                        System.out.print("■│");
+                    } else {
+                        System.out.print(" │");
+                    }
+
+                   
+
                 } 
             System.out.print("\n");
         }
-
-        // for (int i = 0; i <= row ; i++){
-        // if(i %2 == 1){ //impaire
-        // for (int j = 0; j <= col*2; j++) {
-        // if(j == 0){
-        // System.out.print("│");
-        // }
-        // else if (j != col){
-        // System.out.print(grid[j/2][i]+"│");
-        // } else {
-        // System.out.print(grid[j/2][i]+"│\n");
-        // }
-        // }
-        // } else {
-        // for (int j = 0; j <= col; j++) {
-        // if(j == 0){
-        // System.out.print("├");
-        // }
-        // else if (j != col){
-        // System.out.print("─┼");
-        // } else {
-        // System.out.print("─┤\n");
-        // }
-        // }
-        // }
-        // }
         for (int i = 0; i <= col; i++) {
             if (i == 0) {
                 System.out.print("└");
