@@ -28,11 +28,21 @@ class Display {
         for (int j = 0; j < row; j++) {
                 System.out.print("│");
                 for (int k = 0; k < col; k++) {
-                    if(grid[k][j] == 1){
-                        System.out.print("■│");
+                    if(grid[k][j] != 0){
+                        String color ="";
+                        switch (grid[k][j]) {
+                            case 1:
+                                color = "\u001B[95m";
+                                break;
+                            default:
+                            color = "\u001B[0m";
+                                break;
+                        }
+                        System.out.print(color + "■");
                     } else {
-                        System.out.print(" │");
+                        System.out.print(" ");
                     }
+                    System.out.print("\u001B[0m│");
 
                    
 
