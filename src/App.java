@@ -1,23 +1,10 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        System.out.println(GenerateGrid(8, 6));
     }
-    public class grille {
-        int[][] grille = new int[6][7];
-        public grille() {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 7; j++) {
-                    grille[i][j] = 0;
-                }
-            }
-        }
-        public void afficher() {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 7; j++) {
-                    System.out.print(grille[i][j]);
-                }
-                System.out.println();
-            }
-        }
+
+    public static int[][] GenerateGrid(int width, int height) {
+        int[][] grid = new int[height][width];
+        return grid;
     }
 }
