@@ -54,7 +54,7 @@ class Display implements User_Interface {
             } else if (i != col) {
                 System.out.print("─┴");
             } else {
-                System.out.print("─┘");
+                System.out.print("─┘\n");
             }
         }
 
@@ -62,8 +62,11 @@ class Display implements User_Interface {
     
     public  void displayInputDemande(int gridLength) {
         String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
-        System.out.println(Arrays.copyOfRange(PossInput, 0, gridLength));
-        System.out.println("ou joué vous ?");
+        System.out.print(" ");
+        for (int i = 0; i < gridLength; i++) {
+            System.out.print(PossInput[i] + " ");
+        }
+        System.out.println("\nou joué vous ?");
     }
 
     public int Input(int gridLength){
