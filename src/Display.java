@@ -1,13 +1,10 @@
 import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-class Display {
+class Display implements User_Interface {
 
-    public static void main(String[] args) throws Exception {
-        int[][] grid = new int[][] { { 0, 1, 1 }, { 0, 0, 0 }, { 0, 1, 1 }, { 0, 1, 1 } };
-        Display.DisplayGrid(grid);
-    }
-
-    public static void DisplayGrid(int[][] grid) {
+    public void DisplayGrid(int[][] grid) {
         // ┌─┬─┬─┐
         // │1│4│7│
         // ├─┼─┼─┤
@@ -63,11 +60,29 @@ class Display {
 
     }
     
-    public static void displayInputDemande(int gridLength) {
+    public  void displayInputDemande(int gridLength) {
         String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
         System.out.println(Arrays.copyOfRange(PossInput, 0, gridLength));
         System.out.println("ou joué vous ?");
     }
 
+    public int Input(int gridLength){
+        String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
+        String input = "";
+        this.displayInputDemande(gridLength);
+        BufferedReader brInput = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            input = brInput.readLine();
+        }
+        catch (Exception e){
+            System.out.println("Une Erreur est survenue\nErreur : "+ e.getMessage() +"\n merci de ressayer");
+            return Input(gridLength);
+        }
+        return Arrays.asList(PossInput).indexOf(input);
+    }
 
+    public  int[][] GenerateGrid(int width, int height) {
+        int[][] grid = new int[width][height];
+        return grid;
+    }
 }
