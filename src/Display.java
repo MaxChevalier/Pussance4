@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class Display {
 
 
@@ -10,4 +12,12 @@ class Display {
             System.out.println();
         }
     }
+    
+    public static void displayInputDemande(int gridLength) {
+        String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
+        System.out.println(Arrays.copyOfRange(PossInput, 0, gridLength));
+        System.out.println("ou joué vous ?");
+    }
+
+
 }
