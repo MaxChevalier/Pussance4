@@ -14,17 +14,6 @@ public class GridVerif {
         this.grid = _grid;
     }
 
-    public static void test(int[][] _grid){
-        GridVerif gridVerif = new GridVerif(_grid);
-        System.out.println(gridVerif.CheckLine());
-        System.out.println(gridVerif.CheckColumn());
-    }
-
-    public static void main(String[] args){
-        int[][] grid = {{1,1,1,1},{0,0,1,0},{0,0,1,0},{0,0,2,0},{0,0,1,0}};
-        GridVerif.test(grid);
-    }
-
     private int CheckLine(){
         int[] infocheck = {0,0}; // player, nbt a la suite
         // TODO fonction qui vérifie si la ligne est gagné par un joueur et retourne l'identifiant du joueur gagnant (return 0 si aucun joueur n'a gagné)
