@@ -1,3 +1,5 @@
+package puissance4.ynov;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -59,18 +61,19 @@ public class GameManager {
             default:
                 throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
         }
-        grid = display.GenerateGrid(8, 6);
+        grid = display.GenerateGrid(width, height);
 
         int turnPlayer = 1; // représante lejoeur qui doit jouer
 
         // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
-        while (!IsFinish()){
+        while (!GridVerif.IsFinish(grid)){
             UserPlay(width, turnPlayer);
             turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
         }
 
-        int winner = WhoWin();
+        int winner = GridVerif.WhoWin(grid);
 
+        
         switch (winner){
             case 0:
                 System.out.println("Match nul");
