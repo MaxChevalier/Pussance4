@@ -70,7 +70,7 @@ public class GameManager {
             UserPlay(width, turnPlayer);
             turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
         }
-
+        display.DisplayGrid(grid);
         int winner = GridVerif.WhoWin(grid);
 
         
