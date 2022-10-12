@@ -146,14 +146,14 @@ public class AppTest {
             amount = new GridVerif(grid).CheckLine();
             assertEquals("Total amount is not correct", 0, amount, 0);
             grid = new int[][]{
+                {0,0,0,0,0,2},
                 {0,0,0,0,0,0},
                 {0,0,0,0,0,0},
                 {0,0,0,0,0,0},
-                {0,0,0,0,0,0},
-                {0,0,0,1,0,0},
-                {0,0,1,0,0,0},
-                {0,1,0,0,0,0},
-                {1,0,0,0,0,0}
+                {0,0,1,1,2,2},
+                {0,0,0,1,1,2},
+                {0,0,0,0,1,2},
+                {0,0,0,0,0,1}
             };
             amount = new GridVerif(grid).CheckLine();
             assertEquals("Total amount is not correct", 1, amount, 0);

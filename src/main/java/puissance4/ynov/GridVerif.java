@@ -64,16 +64,22 @@ public class GridVerif {
     }
 
     public int CheckDiagonal(){
-        for (int i = 0 ; i < this.grid.length-3 ; i++){
-            for (int j = 0 ; j < this.grid[i].length-3 ; j++){
-                if (this.grid[i][j] == this.grid[i+1][j+1] && this.grid[i][j] == this.grid[i+2][j+2] && this.grid[i][j] == this.grid[i+3][j+3] && this.grid[i][j] != 0){
+        // TODO fonction qui vérifie si la diagonale est gagné par un joueur et retourne l'identifiant du joueur gagnant (return 0 si aucun joueur n'a gagné)
+        for(int i = 0 ; i < this.grid.length-3 ; i++){
+            for(int j = 0 ; j < this.grid[i].length-3 ; j++){
+                if(this.grid[i][j] == this.grid[i+1][j+1] && this.grid[i][j] == this.grid[i+2][j+2] && this.grid[i][j] == this.grid[i+3][j+3] && this.grid[i][j] != 0){
                     return this.grid[i][j];
-                }
-                if (this.grid[i][j+3] == this.grid[i+1][j+2] && this.grid[i][j+3] == this.grid[i+2][j+1] && this.grid[i][j+3] == this.grid[i+3][j] && this.grid[i][j+3] != 0){
-                    return this.grid[i][j+3];
-                }
+                }     
+            }
+        }
+        for(int i = 0 ; i < this.grid.length-3 ; i++){
+            for(int j = 3 ; j < this.grid[i].length ; j++){
+                if(this.grid[i][j] == this.grid[i+1][j-1] && this.grid[i][j] == this.grid[i+2][j-2] && this.grid[i][j] == this.grid[i+3][j-3] && this.grid[i][j] != 0){
+                    return this.grid[i][j];
+                }     
             }
         }
         return 0;
+
     }
 }
