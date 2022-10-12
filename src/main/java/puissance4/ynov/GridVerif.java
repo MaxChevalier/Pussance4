@@ -35,11 +35,11 @@ public class GridVerif {
 
     private int[][] grid;
 
-    private GridVerif(int[][] _grid){
+    public GridVerif(int[][] _grid){
         this.grid = _grid;
     }
 
-    private int CheckLine(){
+    public int CheckLine(){
         int[] infocheck = {0,0}; // player, nbt a la suite
         // TODO fonction qui vérifie si la ligne est gagné par un joueur et retourne l'identifiant du joueur gagnant (return 0 si aucun joueur n'a gagné)
         for(int i = 0 ; i < this.grid.length ; i++){
@@ -62,7 +62,7 @@ public class GridVerif {
 
     }
 
-    private int CheckColumn(){
+    public int CheckColumn(){
         // TODO fonction qui vérifie si la colonne est gagné par un joueur et retourne l'identifiant du joueur gagnant (return 0 si aucun joueur n'a gagné)
         int[] infocheck = {0,0}; // player, nbt a la suite
         for(int i = 0 ; i < this.grid.length ; i++){
@@ -84,7 +84,7 @@ public class GridVerif {
         return 0;
     }
 
-    private int CheckDiagonal(){
+    public int CheckDiagonal(){
         for (int i = 0 ; i < this.grid.length-3 ; i++){
             for (int j = 0 ; j < this.grid[i].length-3 ; j++){
                 if (this.grid[i][j] == this.grid[i+1][j+1] && this.grid[i][j] == this.grid[i+2][j+2] && this.grid[i][j] == this.grid[i+3][j+3]){
