@@ -131,26 +131,80 @@ public class AppTest {
     public void CheckDiagonalIsCorrect(){
         try {
             int amount;
-            int[][] grid = new int[6][8];
+            int[][] grid = new int[][]{};
 
-            grid[0][0] = 1;
-            grid[1][1] = 1;
-            grid[2][2] = 1;
-            grid[3][3] = 1;
-            amount = new GridVerif(grid).CheckDiagonal();
-            assertEquals("Total amount is not correct", 1, amount, 0);
-            grid[0][0] = 2;
-            grid[1][1] = 2;
-            grid[2][2] = 2;
-            grid[3][3] = 2;
-            amount = new GridVerif(grid).CheckDiagonal();
-            assertEquals("Total amount is not correct", 2, amount, 0);
-            grid[0][0] = 1;
-            grid[1][1] = 2;
-            grid[2][2] = 1;
-            grid[3][3] = 2;
-            amount = new GridVerif(grid).CheckDiagonal();
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0}
+            };
+            amount = new GridVerif(grid).CheckLine();
             assertEquals("Total amount is not correct", 0, amount, 0);
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,1,0,0},
+                {0,0,1,0,0,0},
+                {0,1,0,0,0,0},
+                {1,0,0,0,0,0}
+            };
+            amount = new GridVerif(grid).CheckLine();
+            assertEquals("Total amount is not correct", 1, amount, 0);
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,2,0,0,0},
+                {0,0,0,2,0,0},
+                {0,0,0,0,2,0},
+                {0,0,0,0,0,2}
+            };
+            amount = new GridVerif(grid).CheckLine();
+            assertEquals("Total amount is not correct", 2, amount, 0);
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {2,0,0,1,0,0},
+                {1,0,1,0,0,0},
+                {2,2,0,0,0,0},
+                {1,2,1,2,0,0}
+            };
+            amount = new GridVerif(grid).CheckLine();
+            assertEquals("Total amount is not correct", 0, amount, 0);
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,1,0,0,0,0},
+                {0,1,0,0,0,0},
+                {0,2,2,1,0,0},
+                {0,1,1,2,0,0},
+                {0,1,1,0,2,0},
+                {1,2,0,0,1,0},
+                {1,1,2,1,2,1}
+            };
+            amount = new GridVerif(grid).CheckLine();
+            assertEquals("Total amount is not correct", 1, amount, 0);
+            grid = new int[][]{
+                {0,0,0,0,0,0},
+                {0,1,2,0,0,0},
+                {0,2,0,2,2,0},
+                {0,1,2,0,2,0},
+                {0,1,0,2,1,2},
+                {0,0,1,0,1,0},
+                {1,2,0,0,1,0},
+                {1,1,2,1,2,1}
+            };
+            amount = new GridVerif(grid).CheckLine();
+            assertEquals("Total amount is not correct", 2, amount, 0);
 
         } catch (Exception e) {
             fail(e.getMessage());
