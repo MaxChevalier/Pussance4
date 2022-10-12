@@ -6,7 +6,6 @@ public class GridVerif {
         if (WhoWin(grid)!=0){
             return true;
         }
-        System.out.println("bonjour");
         for (int j = 0; j < grid.length; j++) {
             if (grid[j][0]==0){
                 return false;
@@ -18,9 +17,6 @@ public class GridVerif {
     public static int WhoWin(int[][] grid){
         // TODO fonction qui retourne un entier pour savoir qui a gagné (return 0 si égalité)
         GridVerif gridVerif = new GridVerif(grid);
-        System.out.println(gridVerif.CheckLine());
-        System.out.println(gridVerif.CheckColumn());
-        System.out.println(gridVerif.CheckDiagonal());
         if (gridVerif.CheckLine()!=0){
             return gridVerif.CheckLine();
         }

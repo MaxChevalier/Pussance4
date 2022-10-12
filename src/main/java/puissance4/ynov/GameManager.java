@@ -56,7 +56,7 @@ public class GameManager {
                 break;
             case 3:
                 height = 10;
-                width = 10;
+                width = 12;
                 break;
             default:
                 throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
