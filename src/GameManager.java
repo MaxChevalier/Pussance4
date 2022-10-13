@@ -61,13 +61,13 @@ public class GameManager {
         int turnPlayer = 1; // représante lejoeur qui doit jouer
 
         // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
-        while (!IsFinish())
+        while (!GridVerif.IsFinish(grid))
         {
             UserPlay(turnPlayer);
             turnPlayer = (turnPlayer%nbtPlayer)+1; // passage au joueur suivant
         }
 
-        int winner = WhoWin();
+        int winner = GridVerif.WhoWin(grid);
 
         switch (winner){
             case 0:
