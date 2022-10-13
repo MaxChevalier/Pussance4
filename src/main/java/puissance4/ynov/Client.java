@@ -10,6 +10,15 @@ import java.net.InetAddress;
 public class Client {
     public InetAddress ip;
     
+    public Client (InetAddress ipServeur){
+        startClient(ipServeur);
+        try {
+            ip = InetAddress.getLocalHost();
+        }catch (IOException e){
+            System.err.println("Impossible de récupérer l'adresse IP");
+        }
+    }
+
     public  void startClient(InetAddress ipServeur){
         
         try {
