@@ -92,17 +92,7 @@ public class GameManager {
             System.err.println("Fatal Error : "+e.getMessage());
         }
         
-<<<<<<< HEAD
-        switch (winner) {
-                System.out.println("Le joueur n°"+winner+" a gagné");
-            }
-=======
->>>>>>> dev
     }
-
-
-
-
 
     private void UserPlay(int widht, int turnPlayer) {
         System.out.println("C'est au tour du joueur n°" + turnPlayer + " de jouer");

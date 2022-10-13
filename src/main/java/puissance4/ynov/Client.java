@@ -8,23 +8,8 @@ import java.nio.channels.SocketChannel;
 import java.net.InetAddress;
 
 public class Client {
+ 
     public InetAddress ip;
-<<<<<<< HEAD
-    
-    public Client (InetAddress ipServeur){
-        startClient(ipServeur);
-        try {
-            ip = InetAddress.getLocalHost();
-        }catch (IOException e){
-            System.err.println("Impossible de récupérer l'adresse IP");
-        }
-    }
-
-    public  void startClient(InetAddress ipServeur){
-        
-        try {
-            ip = InetAddress.getLocalHost();
-=======
 
     public Client(InetAddress ipServer) {
         startClient(ipServer);
@@ -35,13 +20,10 @@ public class Client {
         }
     }
 
-    public void startClient(InetAddress ipServer){
-
+    public static void main(String[] args) throws Exception{
         try {
-            
->>>>>>> dev
             SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress(ipServer, 8000));
+            socket.connect(new InetSocketAddress(8000));
             ClientHandler client = new ClientHandler(socket, null);
             Thread clientThread = new Thread(client);
             clientThread.start();
