@@ -19,7 +19,7 @@ public class App {
                         GameManager.GameInitialisater();
                         return;
                     case "2":
-                        System.out.println("En Construction");
+                        OnligneSetup();
                         break;
                     default:
                         System.out.println("Entrée non reconnu");
