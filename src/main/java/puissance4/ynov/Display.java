@@ -1,3 +1,5 @@
+package puissance4.ynov;
+
 import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,6 +34,12 @@ class Display implements User_Interface {
                         switch (grid[k][j]) {
                             case 1:
                                 color = "\u001B[95m";
+                                break;
+                            case 2:
+                                color = "\u001B[34m";
+                                break;
+                            case 3:
+                                color = "\u001B[32m";
                                 break;
                             default:
                             color = "\u001B[0m";
