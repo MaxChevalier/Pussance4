@@ -24,7 +24,7 @@ public class GameManager {
                     System.err.println(e.getMessage());
                 }
             } catch (Exception e) {
-                System.out.println("Une Erreur est survenue\nErreur : " + e.getMessage());
+                System.out.println("Fatal error : " + e.getMessage());
                 return;
             }
             System.out.println("Voulez vous rejouer ? (oui/non)");
@@ -44,6 +44,9 @@ public class GameManager {
         System.out.println(Const.GOODBYE_MESSAGE);
 
     }
+
+
+
 
     private void Game(int nbtPlayer) {
         // génére la grille en fonction du nombre de joueur
@@ -67,32 +70,45 @@ public class GameManager {
 
         // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
         while (!GridVerif.IsFinish(grid)){
-            UserPlay(width, turnPlayer);
-            turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
-        }
-        display.DisplayGrid(grid);
-        int winner = GridVerif.WhoWin(grid);
-
-        
-        switch (winner){
-            case 0:
-                System.out.println("Match nul");
-                break;
-            default:
-                System.out.println("Le joueur n°"+winner+" a gagné");
-                break;
+            try{
+                UserPlay(width, turnPlayer);
+                turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
+            }catch (Exception e){
+                System.err.println(e.getMessage());
             }
+        }
+        
+        try{
+            display.DisplayGrid(grid);
+            int winner = GridVerif.WhoWin(grid);
+            switch (winner){
+                case 0:
+                    System.out.println("Match nul");
+                    break;
+                default:
+                    System.out.println("Le joueur n°"+winner+" a gagné");
+                    break;
+                }
+        }catch (Exception e){
+            System.err.println("Fatal Error : "+e.getMessage());
+        }
+        
     }
 
-    private void UserPlay(int widht,int turnPlayer) {
+
+
+
+
+    private void UserPlay(int widht, int turnPlayer) {
         System.out.println("C'est au tour du joueur n°" + turnPlayer + " de jouer");
         display.DisplayGrid(grid);
         int position = display.Input(widht);
         for (int i = grid[position].length - 1; i >= 0; i--) {
             if (grid[position][i] == 0) {
                 grid[position][i] = turnPlayer;
-                break;
+                return;
             }
         }
+        throw new IllegalArgumentException("La colonne est pleine");
     }
 }
