@@ -5,12 +5,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
+import java.net.InetAddress;
 
 public class Client {
-    public static void main(String[] args){
+    public InetAddress ip;
+
+    public Client(InetAddress ipServer) {
+        startClient(ipServer);
         try {
+            ip = InetAddress.getLocalHost();
+        } catch(IOException e) {
+            System.err.println("Impossible de récupérer l'adresse IP");
+        }
+        
+    }
+
+    public void startClient(InetAddress ipServer){
+
+        try {
+            
             SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress("localhost", 8000));
+            socket.connect(new InetSocketAddress(ipServer, 8000));
             ClientHandler client = new ClientHandler(socket, null);
             Thread clientThread = new Thread(client);
             clientThread.start();
