@@ -17,7 +17,6 @@ public class Client {
         } catch(IOException e) {
             System.err.println("Impossible de récupérer l'adresse IP");
         }
-        
     }
 
     public void startClient(InetAddress ipServer){
