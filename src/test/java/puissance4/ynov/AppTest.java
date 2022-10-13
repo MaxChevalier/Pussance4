@@ -1,4 +1,4 @@
-package test.java.puissance4.ynov;
+package puissance4.ynov;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
