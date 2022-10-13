@@ -1,4 +1,4 @@
-package puissance4.ynov;
+package main.java.puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,33 +66,16 @@ public class GameManager {
         int turnPlayer = 1; // représante lejoeur qui doit jouer
 
         // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
-<<<<<<< HEAD:src/GameManager.java
-        while (!GridVerif.IsFinish(grid))
-        {
-            UserPlay(turnPlayer);
-            turnPlayer = (turnPlayer%nbtPlayer)+1; // passage au joueur suivant
-=======
         while (!GridVerif.IsFinish(grid)){
             UserPlay(width, turnPlayer);
             turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
->>>>>>> dev:src/main/java/puissance4/ynov/GameManager.java
         }
         display.DisplayGrid(grid);
         int winner = GridVerif.WhoWin(grid);
 
-<<<<<<< HEAD:src/GameManager.java
-        int winner = GridVerif.WhoWin(grid);
-
-=======
         
->>>>>>> dev:src/main/java/puissance4/ynov/GameManager.java
-        switch (winner){
-            case 0:
-                System.out.println("Match nul");
-                break;
-            default:
+        switch (winner) {
                 System.out.println("Le joueur n°"+winner+" a gagné");
-                break;
             }
     }
 
