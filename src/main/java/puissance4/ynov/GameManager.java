@@ -8,8 +8,7 @@ public class GameManager {
     private Display display = new Display();
     private int[][] grid;
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(Const.WELCOME_MESSAGE);
+    public static void GameInitialisater() throws Exception {
         GameManager gameManager = new GameManager();
         boolean isWantToPlay = true;
         while (isWantToPlay) {
