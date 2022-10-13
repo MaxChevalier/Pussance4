@@ -9,6 +9,7 @@ import java.net.InetAddress;
 
 public class Client {
     public InetAddress ip;
+<<<<<<< HEAD
     
     public Client (InetAddress ipServeur){
         startClient(ipServeur);
@@ -23,8 +24,24 @@ public class Client {
         
         try {
             ip = InetAddress.getLocalHost();
+=======
+
+    public Client(InetAddress ipServer) {
+        startClient(ipServer);
+        try {
+            ip = InetAddress.getLocalHost();
+        } catch(IOException e) {
+            System.err.println("Impossible de récupérer l'adresse IP");
+        }
+    }
+
+    public void startClient(InetAddress ipServer){
+
+        try {
+            
+>>>>>>> dev
             SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress("localhost", 8000));
+            socket.connect(new InetSocketAddress(ipServer, 8000));
             ClientHandler client = new ClientHandler(socket, null);
             Thread clientThread = new Thread(client);
             clientThread.start();

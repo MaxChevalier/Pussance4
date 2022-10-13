@@ -16,7 +16,7 @@ public class Server {
         
     }
 
-    private void launch(){
+    public void launch(){
         try {
             ServerSocketChannel serverSocket = ServerSocketChannel.open();
             serverSocket.bind(new InetSocketAddress(8000));
