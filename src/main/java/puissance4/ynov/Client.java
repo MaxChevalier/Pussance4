@@ -1,4 +1,4 @@
-package puissance4.ynov;
+package main.java.puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +24,16 @@ public class Client {
 
 
         try {
+            ip = InetAddress.getLocalHost();
+        }catch (IOException e){
+            System.err.println("Impossible de récupérer l'adresse IP");
+        }
+    }
+
+    public  void startClient(InetAddress ipServeur){
+        
+        try {
+            ip = InetAddress.getLocalHost();
             SocketChannel socket = SocketChannel.open();
             socket.connect(new InetSocketAddress(ipServer, 8000));
             ClientHandler client = new ClientHandler(socket, null);

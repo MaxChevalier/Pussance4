@@ -1,4 +1,4 @@
-package puissance4.ynov;
+package main.java.puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -93,6 +93,9 @@ public class GameManager {
             System.err.println("Fatal Error : "+e.getMessage());
         }
         
+        switch (winner) {
+                System.out.println("Le joueur n°"+winner+" a gagné");
+            }
     }
 
 

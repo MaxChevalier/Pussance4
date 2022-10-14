@@ -1,4 +1,4 @@
-package puissance4.ynov;
+package main.java.puissance4.ynov;
 
 public class Const {
     // message de bienvenue

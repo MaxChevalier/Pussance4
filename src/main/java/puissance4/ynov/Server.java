@@ -1,4 +1,4 @@
-package puissance4.ynov;
+package main.java.puissance4.ynov;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -22,6 +22,7 @@ public class Server {
             serverSocket.bind(new InetSocketAddress(8000));
             while(true){
                 SocketChannel clientSocket = serverSocket.accept();
+                System.out.println("Client connected");
                 ClientHandler client = new ClientHandler(clientSocket,this);
                 clients.add(client);
                 Thread clientThread = new Thread(client);
