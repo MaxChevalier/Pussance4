@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 public interface User_Interface {
 

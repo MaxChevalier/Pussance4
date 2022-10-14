@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -44,8 +44,9 @@ public class App {
                         server.launch();
                         return;
                     case "2":
-                        System.out.println("Adresse IP de la partie : ");
-                        input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        // System.out.println("Adresse IP de la partie : ");
+                        // input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        input = "";
                         new Client(InetAddress.getByName(input));
                         break;
                     default:
