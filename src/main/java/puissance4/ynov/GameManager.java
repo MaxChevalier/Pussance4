@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -105,5 +105,9 @@ public class GameManager {
             }
         }
         throw new IllegalArgumentException("La colonne est pleine");
+    }
+
+    public void GameOnLine() {
+   
     }
 }

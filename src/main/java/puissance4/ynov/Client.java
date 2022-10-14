@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +30,8 @@ public class Client {
             while(true){
                 String message = promptForString();
                 try {
+                    GameManager gameManager = new GameManager();
+                    gameManager.GameOnLine();
                     client.send(message);
                 }
                 catch(IOException e){

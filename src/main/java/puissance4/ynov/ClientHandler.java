@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
                     socket.close();
                     return;
                 }
-                String message = new String(bytes.array(),"UTF-8");
+                String message = new String(bytes.array(),"UTF-16");
                 if(server != null){
                     server.broadcast(message,this);
                 }
@@ -52,7 +52,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void send(String message) throws IOException{
-        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-8"));
+        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16"));
         while(bytes.hasRemaining()){
             socket.write(bytes);
         }
