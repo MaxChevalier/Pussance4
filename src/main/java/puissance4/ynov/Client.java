@@ -23,7 +23,7 @@ public class Client {
     public static void main(String[] args) throws Exception{
         try {
             SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress(8000));
+            socket.connect(new InetSocketAddress(4004));
             ClientHandler client = new ClientHandler(socket, null);
             Thread clientThread = new Thread(client);
             clientThread.start();

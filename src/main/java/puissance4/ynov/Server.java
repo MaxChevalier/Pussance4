@@ -19,7 +19,7 @@ public class Server {
          int joueur = 0;
         try {
             ServerSocketChannel serverSocket = ServerSocketChannel.open();
-            serverSocket.bind(new InetSocketAddress(8000));
+            serverSocket.bind(new InetSocketAddress(4004));
             while(true){
                  SocketChannel clientSocket = serverSocket.accept();
                 joueur++;
