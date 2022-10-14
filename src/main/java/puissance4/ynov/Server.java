@@ -14,9 +14,8 @@ public class Server {
         Server server = new Server();
         server.launch();
     }
-    
+
     public void launch(){
-         int joueur = 0;
         try {
             ServerSocketChannel serverSocket = ServerSocketChannel.open();
             serverSocket.bind(new InetSocketAddress(4004));
