@@ -22,8 +22,8 @@ public class Client {
 
     public void startClient(InetAddress ipServer){
 
+
         try {
-            
             SocketChannel socket = SocketChannel.open();
             socket.connect(new InetSocketAddress(ipServer, 8000));
             ClientHandler client = new ClientHandler(socket, null);
