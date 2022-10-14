@@ -14,7 +14,6 @@ public class Server{
     ArrayList<SocketChannel> clients = new ArrayList<SocketChannel>();
     int turnPlayer = 1;
     ServerSocketChannel serverSocket = null;
-    private SocketChannel socket = null;
 
     public void launch() {
         try {
@@ -24,6 +23,9 @@ public class Server{
             while (clients.size() < 2) {
                 SocketChannel clientSocket = serverSocket.accept();
                 clients.add(clientSocket);
+                ServerHandler serverHandler = new ServerHandler(this, clientSocket);
+                Thread thread = new Thread(serverHandler);
+                thread.start();
             }
             System.out.println("Deux joueurs ont rejoint la partie");
             ByteBuffer bytes = ByteBuffer.wrap("Your turn".getBytes("UTF-16"));
@@ -31,15 +33,7 @@ public class Server{
             while (bytes.hasRemaining()) {
                 clients.get(r.nextInt(clients.size()-1)+1).write(bytes);
             }
-            // while(true){
-            //     for (SocketChannel clientsocket : clients) {
-            //         bytes.clear();
-            //         clientsocket.read(bytes);
-            //         String message = new String(bytes.array(), "UTF-16");
-            //         System.out.println(message);
-            //         broadcast(message);
-            //     }
-            // }
+            
         } catch (IOException e) {
             System.err.println(e.toString());
             System.err.println("Server stopped due to unexpected exception");
