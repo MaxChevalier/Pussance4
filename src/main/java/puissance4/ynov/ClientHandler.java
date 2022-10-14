@@ -1,5 +1,4 @@
-package main.java.puissance4.ynov;
-
+package puissance4.ynov;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;

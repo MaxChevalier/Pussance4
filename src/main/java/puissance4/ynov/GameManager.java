@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,6 +7,7 @@ public class GameManager {
 
     private Display display = new Display();
     private int[][] grid;
+
 
     public static void main(String[] args) throws Exception {
         System.out.println(Const.WELCOME_MESSAGE);
@@ -92,12 +93,54 @@ public class GameManager {
         }catch (Exception e){
             System.err.println("Fatal Error : "+e.getMessage());
         }
-        
-        switch (winner) {
-                System.out.println("Le joueur n°"+winner+" a gagné");
-            }
+
     }
 
+    private void GameOnLine(Server server) {
+        int nbtPlayer = server.clients.size();
+        int width;
+        int height;
+        switch (nbtPlayer) {
+            case 2:
+                height = 6;
+                width = 8;
+                break;
+            case 3:
+                height = 10;
+                width = 12;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
+        }
+        grid = display.GenerateGrid(width, height);
+
+
+        int turnPlayer = (int) (Math.random() * nbtPlayer);
+
+        while (!GridVerif.IsFinish(grid)){
+            try{
+                UserPlay(width, turnPlayer);
+                turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
+            }catch (Exception e){
+                System.err.println(e.getMessage());
+            }
+        }
+        
+        try{
+            display.DisplayGrid(grid);
+            int winner = GridVerif.WhoWin(grid);
+            switch (winner){
+                case 0:
+                    System.out.println("Match nul");
+                    break;
+                default:
+                    System.out.println("Le joueur n°"+winner+" a gagné");
+                    break;
+                }
+        }catch (Exception e){
+            System.err.println("Fatal Error : "+e.getMessage());
+        }
+    }
 
 
 

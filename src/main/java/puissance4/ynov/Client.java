@@ -1,4 +1,4 @@
-package main.java.puissance4.ynov;
+package puissance4.ynov;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.nio.channels.SocketChannel;
 import java.net.InetAddress;
 
 public class Client {
+ 
     public InetAddress ip;
 
     public Client(InetAddress ipServer) {
@@ -17,31 +18,20 @@ public class Client {
         } catch(IOException e) {
             System.err.println("Impossible de récupérer l'adresse IP");
         }
-        
     }
 
-    public void startClient(InetAddress ipServer){
-
-
+    public static void startClient(InetAddress ipServer){
         try {
-            ip = InetAddress.getLocalHost();
-        }catch (IOException e){
-            System.err.println("Impossible de récupérer l'adresse IP");
-        }
-    }
-
-    public  void startClient(InetAddress ipServeur){
-        
-        try {
-            ip = InetAddress.getLocalHost();
             SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress(ipServer, 8000));
+            socket.connect(new InetSocketAddress(ipServer,4004));
             ClientHandler client = new ClientHandler(socket, null);
             Thread clientThread = new Thread(client);
             clientThread.start();
             while(true){
                 String message = promptForString();
                 try {
+                    // GameManager gameManager = new GameManager();
+                    // gameManager.GameOnLine();
                     client.send(message);
                 }
                 catch(IOException e){
