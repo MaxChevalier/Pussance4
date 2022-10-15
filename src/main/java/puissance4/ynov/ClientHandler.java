@@ -50,7 +50,6 @@ public class ClientHandler implements Runnable {
         }
         
     }
-
     public void send(String message) throws IOException{
         ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16"));
         while(bytes.hasRemaining()){

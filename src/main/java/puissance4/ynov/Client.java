@@ -11,15 +11,6 @@ public class Client {
  
     public InetAddress ip;
 
-    public Client(InetAddress ipServer) {
-        startClient(ipServer);
-        try {
-            ip = InetAddress.getLocalHost();
-        } catch(IOException e) {
-            System.err.println("Impossible de récupérer l'adresse IP");
-        }
-    }
-
     public static void main(String[] args) throws Exception{
         try {
             SocketChannel socket = SocketChannel.open();
@@ -45,6 +36,36 @@ public class Client {
         }
     }
 
+    
+    
+    
+    private void Listen() throws IOException{
+        ByteBuffer bytes = ByteBuffer.allocate(1024);
+        while(true){
+
+            bytes.clear();
+            try {
+                int bytesRead = socket.read(bytes);
+                if(bytesRead <= 0){
+                    socket.close();
+                    return;
+                }
+                String message = new String(bytes.array(),"UTF-16");
+                if(server != null){
+                    server.broadcast(message,this);
+                }
+                else {
+                    System.out.println(message);
+                }
+            }catch (IOException e){
+                socket.close();
+                return;
+            }
+            
+        }
+        
+    }
+    
     public static String promptForString(){
         InputStreamReader bis = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(bis);
@@ -56,5 +77,21 @@ public class Client {
             System.err.println("Please retry : ");
             return promptForString();
         }
+    }
+    public void send(String message) throws IOException{
+        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16"));
+        while(bytes.hasRemaining()){
+            socket.write(bytes);
+        }
+    }
+
+    public void close(){
+        try {
+            socket.close();
+        }
+        catch(IOException e){
+            System.err.println(e.toString());
+        }
+
     }
 }
