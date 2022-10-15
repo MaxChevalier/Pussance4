@@ -11,7 +11,7 @@ public class Client {
     private SocketChannel socket = null;
     private int[][] grid;
     private Display display = new Display();
-    private int id = 0;
+    private int id = 1;
 
     public Client() {
     }
@@ -20,12 +20,13 @@ public class Client {
         try {
             System.out.println("Connexion au serveur...");
             socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress("localhost", 4004));
+            socket.connect(new InetSocketAddress(ipServer, 4004));
             System.out.println("Connexion établie");
             GameOnline();
         } catch (IOException e) {
             System.err.println("Impossible de récupérer l'adresse IP");
         }
+        close();
     }
 
     private int[] Listen() throws IOException {
@@ -39,10 +40,15 @@ public class Client {
                 return null;
             }
             String message = new String(bytes.array(), "UTF-16");
+            message = message.trim();
             try {
-                return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2]) };
+                if (message.equals("Your turn")) {
+                    return new int[] { 0, 0 };
+                }
+                return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2].split("n")[0]) };
             } catch (Exception e) {
-                return new int[] { 0, 0 };
+                System.out.println(e.getMessage());
+                throw e;
             }
         } catch (IOException e) {
             socket.close();
@@ -68,11 +74,28 @@ public class Client {
     }
 
     public void GameOnline() {
-        System.out.println("Starting game...");
+        
         int nbtPlayer = 2;
         // génére la grille en fonction du nombre de joueur
         int width;
         int height;
+        System.out.println("en attente de joueur...");
+        ByteBuffer bytes = ByteBuffer.allocate(1024);
+        try{
+            int bytesRead = socket.read(bytes);
+            if (bytesRead <= 0) {
+                socket.close();
+                return;
+            }
+            String message = (new String(bytes.array(), "UTF-16")).trim();
+            nbtPlayer = Integer.parseInt(message.split(" ")[1]);
+            message = "";
+            bytes.clear();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            bytes.clear();
+        }
+        System.out.println("Starting game...");
         switch (nbtPlayer) {
             case 2:
                 height = 6;
@@ -85,6 +108,7 @@ public class Client {
             default:
                 throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
         }
+        
         grid = display.GenerateGrid(width, height);
 
         // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
@@ -96,13 +120,7 @@ public class Client {
                     if (Listen[0] == 0 && Listen[1] == 0) {
                         OnlineUserPlay(width, id);
                     } else {
-                        for (int i = grid[Listen[1]].length - 1; i >= 0; i--) {
-                            if (grid[Listen[1]][i] == 0) {
-                                grid[Listen[1]][i] = Listen[0];
-                                display.DisplayGrid(grid);
-                                return;
-                            }
-                        }
+                        PlacePiece(Listen[1], Listen[0]);
                     }
                 }
 
@@ -127,11 +145,20 @@ public class Client {
         }
     }
 
+    private void PlacePiece(int col,int idPlayer){
+        for (int i = grid[col].length - 1; i >= 0; i--) {
+            if (grid[col][i] == 0) {
+                grid[col][i] = idPlayer;
+                display.DisplayGrid(grid);
+                return;
+            }
+        }
+    }
+
     private void OnlineUserPlay(int widht, int turnPlayer) {
-        System.out.println("Your turn");
         int position = display.Input(widht);
         if (grid[position][0] == 0) {
-            String message = new String("Turn " + ConvertNbPlayerToSend(turnPlayer) + " " + position);
+            String message = new String(" "+position+" ");
             try {
                 send(message);
                 System.out.println("Waiting for Server...");
@@ -144,19 +171,7 @@ public class Client {
         }
     }
 
-    private String ConvertNbPlayerToSend(int nbt) {
-        switch (nbt) {
-            case 1:
-                return "X";
-            case 2:
-                return "O";
-            case 3:
-                return "V";
-            default:
-                return Integer.toString(nbt);
-        }
-
-    }
+    
 
     private int ConvertSendToInt(String nbt) {
         switch (nbt) {

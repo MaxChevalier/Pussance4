@@ -19,7 +19,7 @@ public class App {
                         GameManager.GameInitialisater();
                         return;
                     case "2":
-                        OnligneSetup();
+                        OnlineSetup();
                         break;
                     default:
                         System.out.println("Entrée non reconnu");
@@ -31,7 +31,7 @@ public class App {
         }
     }
 
-    private static void OnligneSetup() {
+    private static void OnlineSetup() {
         try {
             String input = "";
             while (true) {
@@ -40,14 +40,36 @@ public class App {
                 input = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 switch (input) {
                     case "1":
-                        Server server = new Server();
-                        server.launch();
-                        return;
+                        input = "0";
+                        while (!(input.equals("2") || input.equals("3"))) {
+                            System.out.println("Combien de joueur voulez vous ? (2 ou 3)");
+                            input = (new BufferedReader(new InputStreamReader(System.in)).readLine()).trim();
+                            switch (input) {
+                                case "2":
+                                    Server server = new Server(2);
+                                    Thread thread = new Thread(server);
+                                    thread.start();
+                                    new Client(InetAddress.getByName("localhost"));
+                                    server.stop();
+                                    break;
+                                case "3":
+                                server = new Server(3);
+                                    thread = new Thread(server);
+                                    thread.start();
+                                    new Client(InetAddress.getByName("localhost"));
+                                    server.stop();
+                                    break;
+                                default:
+                                    System.out.println("Entrée non reconnu");
+                                    break;
+                            }
+                        }
+                        break;
+                        
                     case "2":
-                        // System.out.println("Adresse IP de la partie : ");
-                        // input = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                        input = "";
-                        new Client(InetAddress.getByName(input));
+                        System.out.println("Adresse IP de la partie : ");
+                        input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        new Client(InetAddress.getByName(input.trim()));
                         break;
                     default:
                         System.out.println("Entrée non reconnu");
