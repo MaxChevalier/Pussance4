@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) { // allows you to choose in which mode to launch the game
         try {
             System.out.println(Const.WELCOME_MESSAGE);
             String input = "";
@@ -16,13 +16,13 @@ public class App {
                 input = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 switch (input) {
                     case "1":
-                        GameManager.GameInitialisater();
+                        GameManager.GameInitialisater(); // start local game
                         return;
                     case "2":
-                        OnligneSetup();
+                        OnligneSetup();// start online game
                         break;
                     default:
-                        System.out.println("Entrée non reconnu");
+                        System.out.println("Entrée non reconnu"); // if input is not 1 or 2
                         break;
                 }
             }
@@ -31,7 +31,7 @@ public class App {
         }
     }
 
-    private static void OnligneSetup() {
+    private static void OnligneSetup() { // lets create a server or connect to a server
         try {
             String input = "";
             while (true) {
@@ -44,12 +44,13 @@ public class App {
                         server.launch();
                         return;
                     case "2":
-                        System.out.println("Adresse IP de la partie : ");
-                        input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        // System.out.println("Adresse IP de la partie : ");
+                        // input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        input = "";
                         new Client(InetAddress.getByName(input));
                         break;
                     default:
-                        System.out.println("Entrée non reconnu");
+                        System.out.println("Entrée non2 reconnu");
                         break;
                 }
             }

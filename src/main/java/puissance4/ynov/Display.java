@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 class Display implements User_Interface {
 
-    public void DisplayGrid(int[][] grid) {
+    public void DisplayGrid(int[][] grid) { // display the grid
         // ┌─┬─┬─┐
         // │1│4│7│
         // ├─┼─┼─┤
@@ -26,12 +26,12 @@ class Display implements User_Interface {
             }
         }
 
-        for (int j = 0; j < row; j++) {
+        for (int j = 0; j < row; j++) { // for each row
                 System.out.print("│");
-                for (int k = 0; k < col; k++) {
+                for (int k = 0; k < col; k++) { // for each column
                     if(grid[k][j] != 0){
                         String color ="";
-                        switch (grid[k][j]) {
+                        switch (grid[k][j]) { // generate the grid according to the number of players
                             case 1:
                                 color = "\u001B[95m";
                                 break;
@@ -50,13 +50,10 @@ class Display implements User_Interface {
                         System.out.print(" ");
                     }
                     System.out.print("\u001B[0m│");
-
-                   
-
                 } 
             System.out.print("\n");
         }
-        for (int i = 0; i <= col; i++) {
+        for (int i = 0; i <= col; i++) { 
             if (i == 0) {
                 System.out.print("└");
             } else if (i != col) {
@@ -68,7 +65,7 @@ class Display implements User_Interface {
 
     }
     
-    public  void displayInputDemande(int gridLength) {
+    public  void displayInputDemande(int gridLength) { // display the input demande and the possible input
         String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
         System.out.print(" ");
         for (int i = 0; i < gridLength; i++) {
@@ -77,7 +74,7 @@ class Display implements User_Interface {
         System.out.println("\nou joué vous ?");
     }
 
-    public int Input(int gridLength){
+    public int Input(int gridLength){ // get the input and return the column 
         String[] PossInput = {"a","z","e","r","t","y","u","i","o","p","q","s","d","f","g","h","j","k","l","m","w","x","c","v","b","n"};
         String input = "";
         this.displayInputDemande(gridLength);
@@ -92,7 +89,7 @@ class Display implements User_Interface {
         return Arrays.asList(PossInput).indexOf(input);
     }
 
-    public  int[][] GenerateGrid(int width, int height) {
+    public  int[][] GenerateGrid(int width, int height) { // generate the grid
         int[][] grid = new int[width][height];
         return grid;
     }
