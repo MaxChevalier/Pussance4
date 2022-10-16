@@ -1,60 +1,188 @@
 package puissance4.ynov;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 
 public class Client {
- 
-    public InetAddress ip;
+
+    private SocketChannel socket = null;
+    private int[][] grid;
+    private Display display = new Display();
+    private int id = 1;
+
+    public Client() {
+    }
 
     public Client(InetAddress ipServer) {
-        startClient(ipServer);
         try {
-            ip = InetAddress.getLocalHost();
-        } catch(IOException e) {
+            System.out.println("Connexion au serveur...");
+            socket = SocketChannel.open();
+            socket.connect(new InetSocketAddress(ipServer, 4004));
+            System.out.println("Connexion établie");
+            GameOnline();
+        } catch (IOException e) {
             System.err.println("Impossible de récupérer l'adresse IP");
         }
+        close();
     }
 
-    public static void startClient(InetAddress ipServer){
-        try {
-            SocketChannel socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress(ipServer,4004));
-            ClientHandler client = new ClientHandler(socket, null);
-            Thread clientThread = new Thread(client);
-            clientThread.start();
-            while(true){
-                String message = promptForString();
-                try {
-                    // GameManager gameManager = new GameManager();
-                    // gameManager.GameOnLine();
-                    client.send(message);
-                }
-                catch(IOException e){
-                    System.err.println(e.toString());
-                }
-                
-            }
+    private int[] Listen() throws IOException {
 
-        } catch (IOException e){
+        ByteBuffer bytes = ByteBuffer.allocate(1024);
+        bytes.clear();
+        try {
+            int bytesRead = socket.read(bytes);
+            if (bytesRead <= 0) {
+                socket.close();
+                return null;
+            }
+            String message = new String(bytes.array(), "UTF-16");
+            message = message.trim();
+            try {
+                if (message.equals("Your turn")) {
+                    return new int[] { 0, 0 };
+                }
+                return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2].split("n")[0]) };
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw e;
+            }
+        } catch (IOException e) {
+            socket.close();
+            return null;
+        }
+
+    }
+
+    public void send(String message) throws IOException {
+        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16"));
+        while (bytes.hasRemaining()) {
+            socket.write(bytes);
+        }
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
             System.err.println(e.toString());
         }
+
     }
 
-    public static String promptForString(){
-        InputStreamReader bis = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(bis);
-        try {
-            return br.readLine();
+    public void GameOnline() {
+        
+        int nbtPlayer = 2;
+        // génére la grille en fonction du nombre de joueur
+        int width;
+        int height;
+        System.out.println("en attente de joueur...");
+        ByteBuffer bytes = ByteBuffer.allocate(1024);
+        try{
+            int bytesRead = socket.read(bytes);
+            if (bytesRead <= 0) {
+                socket.close();
+                return;
+            }
+            String message = (new String(bytes.array(), "UTF-16")).trim();
+            nbtPlayer = Integer.parseInt(message.split(" ")[1]);
+            message = "";
+            bytes.clear();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            bytes.clear();
         }
-        catch(IOException e){
-            System.err.println("Something went wrong : " + e.getMessage());
-            System.err.println("Please retry : ");
-            return promptForString();
+        System.out.println("Starting game...");
+        switch (nbtPlayer) {
+            case 2:
+                height = 6;
+                width = 8;
+                break;
+            case 3:
+                height = 10;
+                width = 12;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
+        }
+        
+        grid = display.GenerateGrid(width, height);
+
+        // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
+        display.DisplayGrid(grid);
+        while (!GridVerif.IsFinish(grid)) {
+            try {
+                int[] Listen = Listen();
+                if (Listen != null) {
+                    if (Listen[0] == 0 && Listen[1] == 0) {
+                        OnlineUserPlay(width, id);
+                    } else {
+                        PlacePiece(Listen[1], Listen[0]);
+                    }
+                }
+
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+        try {
+            display.DisplayGrid(grid);
+            int winner = GridVerif.WhoWin(grid);
+            switch (winner) {
+                case 0:
+                    System.out.println("Match nul");
+                    break;
+                default:
+                    System.out.println("Le joueur n°" + winner + " a gagné");
+                    break;
+            }
+        } catch (Exception e) {
+            System.err.println("Fatal Error : " + e.getMessage());
+        }
+    }
+
+    private void PlacePiece(int col,int idPlayer){
+        for (int i = grid[col].length - 1; i >= 0; i--) {
+            if (grid[col][i] == 0) {
+                grid[col][i] = idPlayer;
+                display.DisplayGrid(grid);
+                return;
+            }
+        }
+    }
+
+    private void OnlineUserPlay(int widht, int turnPlayer) {
+        int position = display.Input(widht);
+        if (grid[position][0] == 0) {
+            String message = new String(" "+position+" ");
+            try {
+                send(message);
+                System.out.println("Waiting for Server...");
+            } catch (IOException e) {
+                System.err.println("Impossible d'envoyer le message");
+            }
+        } else {
+            System.out.println("La colonne est pleine");
+            OnlineUserPlay(widht, turnPlayer);
+        }
+    }
+
+    
+
+    private int ConvertSendToInt(String nbt) {
+        switch (nbt) {
+            case "X":
+                return 1;
+            case "O":
+                return 2;
+            case "V":
+                return 3;
+            default:
+                return Integer.parseInt(nbt);
         }
     }
 }

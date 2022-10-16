@@ -91,57 +91,8 @@ public class GameManager {
         }catch (Exception e){
             System.err.println("Fatal Error : "+e.getMessage());
         }
-
-    }
-
-    private void GameOnLine(Server server) {
-        int nbtPlayer = server.clients.size();
-        int width;
-        int height;
-        switch (nbtPlayer) {
-            case 2:
-                height = 6;
-                width = 8;
-                break;
-            case 3:
-                height = 10;
-                width = 12;
-                break;
-            default:
-                throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
-        }
-        grid = display.GenerateGrid(width, height);
-
-
-        int turnPlayer = (int) (Math.random() * nbtPlayer);
-
-        while (!GridVerif.IsFinish(grid)){
-            try{
-                UserPlay(width, turnPlayer);
-                turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
-            }catch (Exception e){
-                System.err.println(e.getMessage());
-            }
-        }
         
-        try{
-            display.DisplayGrid(grid);
-            int winner = GridVerif.WhoWin(grid);
-            switch (winner){
-                case 0:
-                    System.out.println("Match nul");
-                    break;
-                default:
-                    System.out.println("Le joueur n°"+winner+" a gagné");
-                    break;
-                }
-        }catch (Exception e){
-            System.err.println("Fatal Error : "+e.getMessage());
-        }
     }
-
-
-
 
     private void UserPlay(int widht, int turnPlayer) {
         System.out.println("C'est au tour du joueur n°" + turnPlayer + " de jouer");
