@@ -4,7 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 
+/*
+ *  create a plugin for the server and chose the number of players and option for the game
+ */
 public class App {
+    /**
+     * this method start the plugin and display the welcome message
+     */
     public static void main(String[] args) { // allows you to choose in which mode to launch the game
         try {
             System.out.println(Const.WELCOME_MESSAGE);
@@ -30,7 +36,9 @@ public class App {
             System.out.println(e.getMessage());
         }
     }
-
+/** 
+* this method allows you to choose the type of game you want to play
+*/
     private static void OnligneSetup() { // lets create a server or connect to a server
         try {
             String input = "";

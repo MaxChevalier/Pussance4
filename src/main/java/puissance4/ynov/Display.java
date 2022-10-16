@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * 
+ */
 class Display implements User_Interface {
 
     public void DisplayGrid(int[][] grid) { // display the grid
