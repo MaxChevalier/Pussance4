@@ -87,7 +87,7 @@ public class Server implements Runnable {
                 clientsocket.write(bytes);
             }
         }
-        turnPlayer = ((turnPlayer + 1) % 2);
+        turnPlayer = ((turnPlayer + 1) % nbtPlayer);
         ByteBuffer bytes = ByteBuffer.wrap("Your turn".getBytes("UTF-16"));
         while (bytes.hasRemaining()) {
             clients.get(turnPlayer).write(bytes);
