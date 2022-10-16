@@ -158,7 +158,7 @@ public class Client {
     private void OnlineUserPlay(int widht, int turnPlayer) {
         int position = display.Input(widht);
         if (grid[position][0] == 0) {
-            String message = new String(" "+position+" ");
+            String message = new String("Turn "+position+" ");
             try {
                 send(message);
                 System.out.println("Waiting for Server...");
