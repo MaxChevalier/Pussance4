@@ -3,6 +3,7 @@ package puissance4.ynov;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
@@ -28,6 +29,15 @@ public class Server implements Runnable {
 
     public void stop(){
         isWorking = false;
+        try{
+            for (SocketChannel clientsocket : clients) {
+                clientsocket.close();
+            }
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public void launch() {
@@ -55,6 +65,7 @@ public class Server implements Runnable {
             }
             turnPlayer = clientId;
             while (isWorking) {
+                System.out.println("Waiting for client");
                 SocketChannel clientSocket = clients.get(turnPlayer);
                 bytes.clear();
                 try {

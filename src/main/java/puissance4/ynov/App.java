@@ -51,6 +51,10 @@ public class App {
                                     thread.start();
                                     new Client(InetAddress.getByName("localhost"));
                                     server.stop();
+                                    try{
+                                        thread.interrupt();
+                                    } catch (Exception e) {}
+                                    
                                     break;
                                 case "3":
                                 server = new Server(3);
