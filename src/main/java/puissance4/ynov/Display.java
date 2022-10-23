@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * 
+ */
 class Display implements User_Interface {
 
-    public void DisplayGrid(int[][] grid) {
+    public void DisplayGrid(int[][] grid) { // display the grid
         // ┌─┬─┬─┐
         // │1│4│7│
         // ├─┼─┼─┤
@@ -62,7 +65,7 @@ class Display implements User_Interface {
             }
             System.out.print("\n");
         }
-        for (int i = 0; i <= col; i++) {
+        for (int i = 0; i <= col; i++) { 
             if (i == 0) {
                 System.out.print("└");
             } else if (i != col) {

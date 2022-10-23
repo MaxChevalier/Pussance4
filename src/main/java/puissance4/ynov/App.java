@@ -4,8 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 
+/*
+ *  create a plugin for the server and chose the number of players and option for the game
+ */
 public class App {
-    public static void main(String[] args) {
+    /**
+     * this method start the plugin and display the welcome message
+     */
+    public static void main(String[] args) { // allows you to choose in which mode to launch the game
         try {
             System.out.println(Const.WELCOME_MESSAGE);
             String input = "";
@@ -16,13 +22,13 @@ public class App {
                 input = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 switch (input) {
                     case "1":
-                        GameManager.GameInitialisater();
+                        GameManager.GameInitialisater(); // start local game
                         return;
                     case "2":
-                        OnlineSetup();
+                        OnligneSetup();// start online game
                         break;
                     default:
-                        System.out.println("Entrée non reconnu");
+                        System.out.println("Entrée non reconnu"); // if input is not 1 or 2
                         break;
                 }
             }
@@ -30,8 +36,10 @@ public class App {
             System.out.println(e.getMessage());
         }
     }
-
-    private static void OnlineSetup() {
+/** 
+* this method allows you to choose the type of game you want to play
+*/
+    private static void OnligneSetup() { // lets create a server or connect to a server
         try {
             String input = "";
             while (true) {
@@ -76,7 +84,7 @@ public class App {
                         new Client(InetAddress.getByName(input.trim()));
                         break;
                     default:
-                        System.out.println("Entrée non reconnu");
+                        System.out.println("Entrée non2 reconnu");
                         break;
                 }
             }

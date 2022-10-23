@@ -1,7 +1,7 @@
 package puissance4.ynov;
 
 public class Const {
-    // message de bienvenue
+    // welcome message
     // public static final String WELCOME_MESSAGE = """
     //     ███     ███     ███  ███████  ███       ██████    ██████    ███   ███  ███████
     //      ███   █████   ███   ███      ███      ███      ███    ███  ████ ████  ███
@@ -9,7 +9,7 @@ public class Const {
     //        █████   █████     ███      ███      ███      ███    ███  ██ ███ ██  ███
     //         ███     ███      ███████  ███████   ██████    ██████    ██     ██  ███████
     //         """; 
-    // // message de fin
+    // // end message
     // public static final String GOODBYE_MESSAGE = """
     //     ██████   ███████  ███   ███  ██████   ███████  ███   ███
     //     ███  ██  ███       ███ ███   ███  ██  ███       ███ ███

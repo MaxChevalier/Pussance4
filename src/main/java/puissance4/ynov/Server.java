@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
 
 public class Server implements Runnable {
 
-    ArrayList<SocketChannel> clients = new ArrayList<SocketChannel>();
+    ArrayList<SocketChannel> clients = new ArrayList<SocketChannel>(); // list of clients
     int turnPlayer = 1;
     ServerSocketChannel serverSocket = null;
     int nbtPlayer = 0;
@@ -101,7 +101,7 @@ public class Server implements Runnable {
         turnPlayer = ((turnPlayer + 1) % nbtPlayer);
         ByteBuffer bytes = ByteBuffer.wrap("Your turn".getBytes("UTF-16"));
         while (bytes.hasRemaining()) {
-            clients.get(turnPlayer).write(bytes);
+            clients.get(turnPlayer).write(bytes);// send the message to the client
         }
     }
 
