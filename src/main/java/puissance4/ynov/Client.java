@@ -115,6 +115,7 @@ public class Client {
         display.DisplayGrid(grid);
         while (!GridVerif.IsFinish(grid)) {
             try {
+                System.out.println("\033[H\033[2J");//delete the console
                 int[] Listen = Listen();
                 if (Listen != null) {
                     if (Listen[0] == 0 && Listen[1] == 0) {

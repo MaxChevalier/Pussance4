@@ -22,7 +22,6 @@ class Display implements User_Interface {
         // ├─┼─┼─┤
         // │3│6│9│
         // └─┴─┴─┘
-        System.out.println("\033[H\033[2J");
         int col = grid.length;
         int row = grid[0].length;
         for (int i = 0; i <= col; i++) {

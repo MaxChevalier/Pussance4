@@ -70,6 +70,7 @@ public class GameManager {
         // repetition as long as the grid is not filled or a player has not won
         while (!GridVerif.IsFinish(grid)){
             try{
+                System.out.println("\033[H\033[2J");//delete the console
                 UserPlay(width, turnPlayer);
                 turnPlayer = (turnPlayer % nbtPlayer) + 1; // change the player who must play
             }catch (Exception e){
