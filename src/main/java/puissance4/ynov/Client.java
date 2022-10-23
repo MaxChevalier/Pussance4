@@ -11,21 +11,22 @@ public class Client {
     private SocketChannel socket = null;
     private int[][] grid;
     private Display display = new Display();
-    private int id = 0;
+    private int id = 1;
 
     public Client() {
     }
 
-    public Client(InetAddress ipServer) {
+    public Client(InetAddress ipServer) { // Connect to server
         try {
-            System.out.println("Connexion au serveur...");
+            System.out.println("Connexion au serveur..."); // Connection to server
             socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress("localhost", 4004));
-            System.out.println("Connexion établie");
-            GameOnline();
+            socket.connect(new InetSocketAddress(ipServer, 4004));// chose a port
+            System.out.println("Connexion établie"); // Connection established
+            GameOnline(); // Start a game
         } catch (IOException e) {
             System.err.println("Impossible de récupérer l'adresse IP");
         }
+        close();
     }
 
     private int[] Listen() throws IOException {
@@ -33,32 +34,37 @@ public class Client {
         ByteBuffer bytes = ByteBuffer.allocate(1024);
         bytes.clear();
         try {
-            int bytesRead = socket.read(bytes);
+            int bytesRead = socket.read(bytes); 
             if (bytesRead <= 0) {
                 socket.close();
                 return null;
             }
             String message = new String(bytes.array(), "UTF-16");
+            message = message.trim();
             try {
-                return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2]) };
+                if (message.equals("Your turn")) {
+                    return new int[] { 0, 0 };
+                }
+                return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2].split("n")[0]) }; 
             } catch (Exception e) {
-                return new int[] { 0, 0 };
+                System.out.println(e.getMessage());
+                throw e;
             }
         } catch (IOException e) {
-            socket.close();
+            socket.close(); // Close the socket
             return null;
         }
 
     }
 
-    public void send(String message) throws IOException {
-        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16"));
+    public void send(String message) throws IOException { // Send a message to the server
+        ByteBuffer bytes = ByteBuffer.wrap(message.getBytes("UTF-16")); // Convert message to bytes
         while (bytes.hasRemaining()) {
             socket.write(bytes);
         }
     }
 
-    public void close() {
+    public void close() { // Close connection
         try {
             socket.close();
         } catch (IOException e) {
@@ -68,26 +74,44 @@ public class Client {
     }
 
     public void GameOnline() {
-        System.out.println("Starting game...");
+        
         int nbtPlayer = 2;
         // génére la grille en fonction du nombre de joueur
         int width;
         int height;
+        System.out.println("en attente de joueur...");
+        ByteBuffer bytes = ByteBuffer.allocate(1024); // Buffer capacity
+        try{
+            int bytesRead = socket.read(bytes); // Read the message
+            if (bytesRead <= 0) { // If the message is empt
+                socket.close(); // Close the server 
+                return;
+            }
+            String message = (new String(bytes.array(), "UTF-16")).trim(); // Get message from server
+            nbtPlayer = Integer.parseInt(message.split(" ")[1]); // Get number of player
+            message = "";
+            bytes.clear();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            bytes.clear();
+        }
+        System.out.println("Starting game...");
         switch (nbtPlayer) {
-            case 2:
+            case 2: // this for 2 players
                 height = 6;
                 width = 8;
                 break;
-            case 3:
+            case 3: // this for 3 players
                 height = 10;
                 width = 12;
                 break;
             default:
                 throw new IllegalArgumentException("Unexpected value: " + nbtPlayer);
         }
+        
         grid = display.GenerateGrid(width, height);
 
-        // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
+        // if a player have not win the game boucle this code
         display.DisplayGrid(grid);
         while (!GridVerif.IsFinish(grid)) {
             try {
@@ -96,13 +120,7 @@ public class Client {
                     if (Listen[0] == 0 && Listen[1] == 0) {
                         OnlineUserPlay(width, id);
                     } else {
-                        for (int i = grid[Listen[1]].length - 1; i >= 0; i--) {
-                            if (grid[Listen[1]][i] == 0) {
-                                grid[Listen[1]][i] = Listen[0];
-                                display.DisplayGrid(grid);
-                                return;
-                            }
-                        }
+                        PlacePiece(Listen[1], Listen[0]);
                     }
                 }
 
@@ -113,7 +131,7 @@ public class Client {
 
         try {
             display.DisplayGrid(grid);
-            int winner = GridVerif.WhoWin(grid);
+            int winner = GridVerif.WhoWin(grid); // method for know who win
             switch (winner) {
                 case 0:
                     System.out.println("Match nul");
@@ -127,13 +145,22 @@ public class Client {
         }
     }
 
-    private void OnlineUserPlay(int widht, int turnPlayer) {
-        System.out.println("Your turn");
+    private void PlacePiece(int col,int idPlayer){ // Place a piece in the grid
+        for (int i = grid[col].length - 1; i >= 0; i--) { // test if the column is full
+            if (grid[col][i] == 0) { // if the column is not full
+                grid[col][i] = idPlayer; // place the piece
+                display.DisplayGrid(grid); // display the grid
+                return;
+            }
+        }
+    }
+
+    private void OnlineUserPlay(int widht, int turnPlayer) {// Play a turn
         int position = display.Input(widht);
-        if (grid[position][0] == 0) {
-            String message = new String("Turn " + ConvertNbPlayerToSend(turnPlayer) + " " + position);
+        if (grid[position][0] == 0) { // if the column is not full
+            String message = new String(" "+position+" ");
             try {
-                send(message);
+                send(message); // Send to server
                 System.out.println("Waiting for Server...");
             } catch (IOException e) {
                 System.err.println("Impossible d'envoyer le message");
@@ -144,21 +171,7 @@ public class Client {
         }
     }
 
-    private String ConvertNbPlayerToSend(int nbt) {
-        switch (nbt) {
-            case 1:
-                return "X";
-            case 2:
-                return "O";
-            case 3:
-                return "V";
-            default:
-                return Integer.toString(nbt);
-        }
-
-    }
-
-    private int ConvertSendToInt(String nbt) {
+    private int ConvertSendToInt(String nbt) { // Convert a string to int
         switch (nbt) {
             case "X":
                 return 1;

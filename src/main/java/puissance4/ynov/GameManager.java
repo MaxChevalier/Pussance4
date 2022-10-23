@@ -8,25 +8,25 @@ public class GameManager {
     private Display display = new Display();
     private int[][] grid;
 
-    public static void GameInitialisater() throws Exception { // initialize the game
+    public static void GameInitialisater() throws Exception {
         GameManager gameManager = new GameManager();
         boolean isWantToPlay = true;
         while (isWantToPlay) {
             int nbtPlayer = 0;
-            System.out.println("Combien de joueur voulez vous ? (2 ou 3)"); // ask the number of player
+            System.out.println("Combien de joueur voulez vous ? (2 ou 3)");
             BufferedReader brInput = new BufferedReader(new InputStreamReader(System.in));
             try {
                 nbtPlayer = Integer.parseInt(brInput.readLine());
                 try {
-                    gameManager.Game(nbtPlayer); // start the game
+                    gameManager.Game(nbtPlayer);
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
             } catch (Exception e) {
-                System.out.println("Fatal error : " + e.getMessage()); // if the input is not a number
+                System.out.println("Fatal error : " + e.getMessage());
                 return;
             }
-            System.out.println("Voulez vous rejouer ? (oui/non)"); // ask if the player want to play again
+            System.out.println("Voulez vous rejouer ? (oui/non)");
             switch (brInput.readLine()) {
                 case "oui":
                     isWantToPlay = true;
@@ -35,7 +35,7 @@ public class GameManager {
                     isWantToPlay = false;
                     break;
                 default:
-                    System.out.println("Entrée non reconnu\nnous considérons que vous ne voulez pas rejouer"); // if the input is not oui or non
+                    System.out.println("Entrée non reconnu\nnous considérons que vous ne voulez pas rejouer");
                     isWantToPlay = false;
                     break;
             }
@@ -47,10 +47,11 @@ public class GameManager {
 
 
 
-    private void Game(int nbtPlayer) { // start the game
+    private void Game(int nbtPlayer) {
+        // génére la grille en fonction du nombre de joueur
         int width;
         int height;
-        switch (nbtPlayer) { // generate the grid according to the number of players
+        switch (nbtPlayer) {
             case 2:
                 height = 6;
                 width = 8;
@@ -64,14 +65,13 @@ public class GameManager {
         }
         grid = display.GenerateGrid(width, height);
 
-        int turnPlayer = 1; // representing the player who must play
+        int turnPlayer = 1; // représante lejoeur qui doit jouer
 
-
-        // repetition as long as the grid is not filled or a player has not won
+        // répétition tant que la grille n'est pas remplie ou qu'un joueur n'a pas gagné
         while (!GridVerif.IsFinish(grid)){
             try{
                 UserPlay(width, turnPlayer);
-                turnPlayer = (turnPlayer % nbtPlayer) + 1; // change the player who must play
+                turnPlayer = (turnPlayer % nbtPlayer) + 1; // passage au joueur suivant
             }catch (Exception e){
                 System.err.println(e.getMessage());
             }
@@ -79,13 +79,13 @@ public class GameManager {
         
         try{
             display.DisplayGrid(grid);
-            int winner = GridVerif.WhoWin(grid); // get the winner
+            int winner = GridVerif.WhoWin(grid);
             switch (winner){
                 case 0:
-                    System.out.println("Match nul"); // if there is no winner
+                    System.out.println("Match nul");
                     break;
                 default:
-                    System.out.println("Le joueur n°"+winner+" a gagné"); // display the winner
+                    System.out.println("Le joueur n°"+winner+" a gagné");
                     break;
                 }
         }catch (Exception e){
@@ -94,16 +94,16 @@ public class GameManager {
         
     }
 
-    private void UserPlay(int widht, int turnPlayer) { // ask the player where he wants to play
+    private void UserPlay(int widht, int turnPlayer) { // ask to the user where he want to play
         System.out.println("C'est au tour du joueur n°" + turnPlayer + " de jouer");
-        display.DisplayGrid(grid);
-        int position = display.Input(widht); // get the position where the player want to play
-        for (int i = grid[position].length - 1; i >= 0; i--) {
-            if (grid[position][i] == 0) {
-                grid[position][i] = turnPlayer;
+        display.DisplayGrid(grid); // display the grid
+        int position = display.Input(widht);
+        for (int i = grid[position].length - 1; i >= 0; i--) { 
+            if (grid[position][i] == 0) { 
+                grid[position][i] = turnPlayer;  
                 return;
             }
         }
-        throw new IllegalArgumentException("La colonne est pleine"); // if the column is full
+        throw new IllegalArgumentException("La colonne est pleine"); 
     }
 }

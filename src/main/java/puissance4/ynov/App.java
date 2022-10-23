@@ -5,13 +5,18 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 /*
- *  create a plugin for the server and chose the number of players and option for the game
+ * class App display the menu and call the GameManager for start the game ,allows you to connect to the server or create a server
+ * this menu is create by method main 
+ * the method OnlineGame is option for play with other player
  */
 public class App {
-    /**
-     * this method start the plugin and display the welcome message
+    /*
+     * this method display the menu and call the GameManager for start the game ,allows you to connect to the server or create a server
+     *@param 1 or 2 
+     *@return input is the input of the user for choose the option
+     * @exception message if the user enter a wrong value the program will display a wrong value
      */
-    public static void main(String[] args) { // allows you to choose in which mode to launch the game
+    public static void main(String[] args) {
         try {
             System.out.println(Const.WELCOME_MESSAGE);
             String input = "";
@@ -22,13 +27,13 @@ public class App {
                 input = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 switch (input) {
                     case "1":
-                        GameManager.GameInitialisater(); // start local game
+                        GameManager.GameInitialisater();
                         return;
                     case "2":
-                        OnligneSetup();// start online game
+                        OnlineSetup();
                         break;
                     default:
-                        System.out.println("Entrée non reconnu"); // if input is not 1 or 2
+                        System.out.println("Entrée non reconnu");
                         break;
                 }
             }
@@ -36,10 +41,14 @@ public class App {
             System.out.println(e.getMessage());
         }
     }
-/** 
-* this method allows you to choose the type of game you want to play
-*/
-    private static void OnligneSetup() { // lets create a server or connect to a server
+/*
+ * this method allow to chose if you want to create a server or connect to a server
+ * @param 1 or 2 
+ * @return input it's what a player send 
+ * @param server create a server if player choose option for play
+ * @exeption is use if the input is not valide or is not a good caractere 
+ */
+    private static void OnlineSetup() {
         try {
             String input = "";
             while (true) {
@@ -48,17 +57,39 @@ public class App {
                 input = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 switch (input) {
                     case "1":
-                        Server server = new Server();
-                        server.launch();
-                        return;
+                        input = "0";
+                        while (!(input.equals("2") || input.equals("3"))) {
+                            System.out.println("Combien de joueur voulez vous ? (2 ou 3)");
+                            input = (new BufferedReader(new InputStreamReader(System.in)).readLine()).trim();
+                            switch (input) {
+                                case "2":
+                                    Server server = new Server(2);
+                                    Thread thread = new Thread(server);
+                                    thread.start();
+                                    new Client(InetAddress.getByName("localhost"));
+                                    server.stop();
+                                    break;
+                                case "3":
+                                server = new Server(3);
+                                    thread = new Thread(server);
+                                    thread.start();
+                                    new Client(InetAddress.getByName("localhost"));
+                                    server.stop();
+                                    break;
+                                default:
+                                    System.out.println("Entrée non reconnu");
+                                    break;
+                            }
+                        }
+                        break;
+                        
                     case "2":
-                        // System.out.println("Adresse IP de la partie : ");
-                        // input = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                        input = "";
-                        new Client(InetAddress.getByName(input));
+                        System.out.println("Adresse IP de la partie : ");
+                        input = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        new Client(InetAddress.getByName(input.trim()));
                         break;
                     default:
-                        System.out.println("Entrée non2 reconnu");
+                        System.out.println("Entrée non reconnu");
                         break;
                 }
             }
