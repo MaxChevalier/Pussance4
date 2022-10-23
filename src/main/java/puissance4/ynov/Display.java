@@ -5,10 +5,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * 
+ * this class display all things for the user
  */
 class Display implements User_Interface {
 
+    /**
+     * display the grid
+     * 
+     * @param grid the grid to display
+     */
     public void DisplayGrid(int[][] grid) { // display the grid
         // ┌─┬─┬─┐
         // │1│4│7│
@@ -75,6 +80,10 @@ class Display implements User_Interface {
 
     }
 
+    /**
+     * display all possible placement for the player to choose in function of the grid length
+     * @param gridLength the grid lenght where the player can play
+     */
     public void displayInputDemande(int gridLength) {
         String[] PossInput = { "a", "z", "e", "r", "t", "y", "u", "i", "o", "p", "q", "s", "d", "f", "g", "h", "j", "k",
                 "l", "m", "w", "x", "c", "v", "b", "n" };
@@ -85,6 +94,13 @@ class Display implements User_Interface {
         System.out.println("\nou jouez vous ?");
     }
 
+    /**
+     * request the user where he want to play
+     * 
+     * @param gridLength the grid length where the player can play
+     * 
+     * @return the column where the user have played
+     */
     public int Input(int gridLength) {
         String[] PossInput = { "a", "z", "e", "r", "t", "y", "u", "i", "o", "p", "q", "s", "d", "f", "g", "h", "j", "k",
                 "l", "m", "w", "x", "c", "v", "b", "n", " " };
@@ -102,6 +118,14 @@ class Display implements User_Interface {
         return Arrays.asList(PossInput).indexOf(input);
     }
 
+
+    /**
+     * Generate a Grid in function of the grid length
+     * @param width Grid width
+     * @param height Grid height
+     * 
+     * @return the grid
+     */
     public int[][] GenerateGrid(int width, int height) {
         int[][] grid = new int[width][height];
         return grid;

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 
-/*
+/**
  *  create a plugin for the server and chose the number of players and option for the game
  */
 public class App {
