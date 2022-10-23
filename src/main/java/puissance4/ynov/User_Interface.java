@@ -1,3 +1,5 @@
+package puissance4.ynov;
+
 public interface User_Interface {
 
     void DisplayGrid(int[][] grid);
