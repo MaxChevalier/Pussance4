@@ -42,7 +42,7 @@ public class Client {
             String message = new String(bytes.array(), "UTF-16");
             message = message.trim();
             try {
-                if (message.equals("Your turn")) {
+                if (message.equals("Your turn") || message.equals("Your turn ")) {
                     return new int[] { 0, 0 };
                 }
                 return new int[] { ConvertSendToInt(message.split(" ")[1]), Integer.parseInt(message.split(" ")[2].split("n")[0]) };

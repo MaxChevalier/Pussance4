@@ -71,7 +71,7 @@ public class Server implements Runnable {
                 try {
                     int bytesRead = clientSocket.read(bytes);
                     if (bytesRead <= 0) {
-                        clientSocket.close();
+                        stop();
                         return;
                     }
                     String message = new String(bytes.array(), "UTF-16");
